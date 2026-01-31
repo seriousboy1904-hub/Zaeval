@@ -9,7 +9,7 @@ from aiogram.filters import Command
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from aiogram.exceptions import TelegramBadRequest
 
-API_TOKEN = 'SIZNING_TOKEN'  # tokenni shu yerga yozing
+API_TOKEN = 'SIZNING_TOKEN'  # tokenni shu yerga yoz
 GEOJSON_FILE = 'locations.json'
 DB_FILE = 'taxi_queue.db'
 
