@@ -1,27 +1,22 @@
-import os
-import json
-import math
-import sqlite3
 import asyncio
+import sqlite3
+import json
+import os
+import math
 from datetime import datetime
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import Command
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from aiogram.exceptions import TelegramBadRequest
 
-# --- TOKEN ENV orqali ---
-API_TOKEN = os.getenv("BOT_TOKEN")
-if not API_TOKEN:
-    raise ValueError("BOT_TOKEN topilmadi!")
+API_TOKEN = 'SIZNING_TOKEN'  # tokenni shu yerga yozing
+GEOJSON_FILE = 'locations.json'
+DB_FILE = 'taxi_queue.db'
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 
-# --- SOZLAMALAR ---
-GEOJSON_FILE = 'locations.json'
-DB_FILE = 'taxi_queue.db'
-
-# --- DATABASE INIT ---
+# --- DB init ---
 def init_db():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
@@ -32,32 +27,33 @@ def init_db():
     conn.commit()
     conn.close()
 
+# --- Location update ---
 def update_location_db(user_id, name, station_name, lat, lon, force_active=False):
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    cursor.execute("SELECT is_active FROM queue WHERE user_id = ?", (user_id,))
+    cursor.execute("SELECT is_active FROM queue WHERE user_id=?", (user_id,))
     row = cursor.fetchone()
-    
+
     if row and row[0] == 0 and not force_active:
         conn.close()
         return False
 
     if row:
-        cursor.execute("UPDATE queue SET lat = ?, lon = ?, station_name = ?, is_active = 1 WHERE user_id = ?", 
+        cursor.execute("UPDATE queue SET lat=?, lon=?, station_name=?, is_active=1 WHERE user_id=?",
                        (lat, lon, station_name, user_id))
     else:
-        cursor.execute("INSERT INTO queue (user_id, name, station_name, lat, lon, joined_at, status, is_active) VALUES (?, ?, ?, ?, ?, ?, 'online', 1)", 
-                       (user_id, name, station_name, lat, lon, datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
+        cursor.execute("INSERT INTO queue (user_id,name,station_name,lat,lon,joined_at,status,is_active) VALUES (?,?,?,?,?,?, 'online',1)",
+                       (user_id,name,station_name,lat,lon,datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     conn.commit()
     conn.close()
     return True
 
-# --- GEOGRAPHY ---
+# --- Distance / closest station ---
 def calculate_distance(lat1, lon1, lat2, lon2):
     R = 6371000
     phi1, phi2 = math.radians(lat1), math.radians(lat2)
     dphi, dlambda = math.radians(lat2-lat1), math.radians(lon2-lon1)
-    a = math.sin(dphi/2)**2 + math.cos(phi1)*math.cos(phi2) * math.sin(dlambda/2)**2
+    a = math.sin(dphi/2)**2 + math.cos(phi1)*math.cos(phi2)*math.sin(dlambda/2)**2
     return R * 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
 
 def find_closest(u_lat, u_lon):
@@ -73,122 +69,82 @@ def find_closest(u_lat, u_lon):
             min_dist, closest = dist, name
     return closest, min_dist
 
-# --- LIVE QUEUE TEXT ---
+# --- Live queue text ---
 def get_live_queue_text(user_id):
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    cursor.execute("SELECT station_name, is_active FROM queue WHERE user_id = ?", (user_id,))
+    cursor.execute("SELECT station_name, is_active FROM queue WHERE user_id=?", (user_id,))
     res = cursor.fetchone()
     if not res or res[1] == 0:
         conn.close()
         return "📴 Siz hozir oflaynsiz. Navbatga turish uchun Live Location yuboring."
-    
+
     st_name = res[0]
-    cursor.execute("SELECT user_id, name, status FROM queue WHERE station_name = ? AND is_active = 1 ORDER BY joined_at ASC", (st_name,))
+    cursor.execute("SELECT user_id,name,status FROM queue WHERE station_name=? AND is_active=1 ORDER BY joined_at ASC", (st_name,))
     drivers = cursor.fetchall()
     conn.close()
 
     total = len(drivers)
-    my_pos = next((i for i, d in enumerate(drivers, 1) if d[0] == user_id), 0)
-    
-    driver_list = ""
-    for i, (d_id, name, status) in enumerate(drivers, 1):
-        icon = "✅" if status == "online" else "☕️"
-        mark = "👉 " if d_id == user_id else ""
-        driver_list += f"{mark}{i}. {name} {icon}\n"
-    
-    return (f"📍 <b>Bekat: {st_name}</b>\n"
-            f"🔢 <b>Navbatingiz: {my_pos}/{total}</b>\n\n"
-            f"📋 <b>Ro'yxat:</b>\n{driver_list}\n"
-            f"⌛️ <i>Yangilandi: {datetime.now().strftime('%H:%M:%S')}</i>")
+    my_pos = next((i for i, d in enumerate(drivers, 1) if d[0]==user_id), 0)
 
-# --- GLOBAL REFRESH ---
+    driver_list = ""
+    for i, (d_id,name,status) in enumerate(drivers,1):
+        icon = "✅" if status=="online" else "☕️"
+        mark = "👉 " if d_id==user_id else ""
+        driver_list += f"{mark}{i}. {name} {icon}\n"
+
+    return f"📍 <b>Bekat: {st_name}</b>\n🔢 <b>Navbatingiz: {my_pos}/{total}</b>\n\n📋 <b>Ro'yxat:</b>\n{driver_list}\n⌛️ <i>Yangilandi: {datetime.now().strftime('%H:%M:%S')}</i>"
+
+# --- Auto-refresh ---
 async def global_refresh():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    cursor.execute("SELECT user_id, msg_id FROM queue WHERE is_active = 1 AND msg_id IS NOT NULL")
+    cursor.execute("SELECT user_id,msg_id FROM queue WHERE is_active=1 AND msg_id IS NOT NULL")
     active_drivers = cursor.fetchall()
     conn.close()
 
-    for user_id, msg_id in active_drivers:
+    for user_id,msg_id in active_drivers:
         try:
-            new_text = get_live_queue_text(user_id)
-            await bot.edit_message_text(chat_id=user_id, message_id=msg_id, text=new_text, parse_mode="HTML")
-        except TelegramBadRequest: pass
-        except Exception: continue
+            await bot.edit_message_text(chat_id=user_id,message_id=msg_id,
+                                        text=get_live_queue_text(user_id),
+                                        parse_mode="HTML")
+        except TelegramBadRequest:
+            pass
+        except Exception:
+            continue
 
 async def auto_loop():
     while True:
         await global_refresh()
         await asyncio.sleep(5)
 
-# --- HANDLERLAR ---
+# --- Handlers ---
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message):
     guide_text = (
         "👋 <b>Assalomu alaykum!</b>\n\n"
-        "Navbatga turish uchun <b>Live Location</b> (Jonli lokatsiya) yuboring:\n"
-        "1. 📎 belgisini bosing\n"
-        "2. <b>Location</b> -> <b>Share My Live Location</b>\n"
-        "3. <b>8 soat</b>ni tanlang."
+        "Navbatga turish uchun <b>Live Location</b> yuboring."
     )
     await message.answer(guide_text, parse_mode="HTML", reply_markup=ReplyKeyboardRemove())
 
-@dp.message(types.ContentType.LOCATION)
+@dp.message(F.location)
 async def handle_location(message: types.Message):
     if message.location.live_period is None:
         await message.answer("⚠️ Iltimos, Live Location yuboring!")
         return
-    st_name, _ = find_closest(message.location.latitude, message.location.longitude)
-    update_location_db(message.from_user.id, message.from_user.full_name, st_name, 
-                       message.location.latitude, message.location.longitude, force_active=True)
-    kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="☕️ Pauza"), KeyboardButton(text="📴 Offline")]], resize_keyboard=True)
-    sent_msg = await message.answer(get_live_queue_text(message.from_user.id), reply_markup=kb, parse_mode="HTML")
+    st_name,_ = find_closest(message.location.latitude,message.location.longitude)
+    update_location_db(message.from_user.id,message.from_user.full_name,st_name,
+                       message.location.latitude,message.location.longitude,force_active=True)
+    kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton("☕️ Pauza"),KeyboardButton("📴 Offline")]],resize_keyboard=True)
+    sent_msg = await message.answer(get_live_queue_text(message.from_user.id),reply_markup=kb,parse_mode="HTML")
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    cursor.execute("UPDATE queue SET msg_id = ? WHERE user_id = ?", (sent_msg.message_id, message.from_user.id))
+    cursor.execute("UPDATE queue SET msg_id=? WHERE user_id=?",(sent_msg.message_id,message.from_user.id))
     conn.commit()
     conn.close()
     await global_refresh()
 
-@dp.message(lambda m: m.text == "📴 Offline")
-async def cmd_offline(message: types.Message):
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    cursor.execute("UPDATE queue SET is_active = 0 WHERE user_id = ?", (message.from_user.id,))
-    conn.commit()
-    conn.close()
-    kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="🚀 Liniyaga qaytish")]], resize_keyboard=True)
-    await message.answer("👋 Siz navbatdan chiqdingiz.", reply_markup=kb)
-    await global_refresh()
-
-@dp.message(lambda m: m.text == "🚀 Liniyaga qaytish")
-async def cmd_re_online(message: types.Message):
-    await message.answer("🔄 Liniyaga qaytish uchun Live Location’ni yangilang.", reply_markup=ReplyKeyboardRemove())
-
-@dp.message(lambda m: m.text == "☕️ Pauza")
-async def cmd_pause(message: types.Message):
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    cursor.execute("UPDATE queue SET status = 'pauza' WHERE user_id = ?", (message.from_user.id,))
-    conn.commit()
-    conn.close()
-    kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="▶️ Davom ettirish"), KeyboardButton(text="📴 Offline")]], resize_keyboard=True)
-    await message.answer("☕️ Siz tanaffusdasiz.", reply_markup=kb)
-    await global_refresh()
-
-@dp.message(lambda m: m.text == "▶️ Davom ettirish")
-async def cmd_resume(message: types.Message):
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    cursor.execute("UPDATE queue SET status = 'online' WHERE user_id = ?", (message.from_user.id,))
-    conn.commit()
-    conn.close()
-    kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text="☕️ Pauza"), KeyboardButton(text="📴 Offline")]], resize_keyboard=True)
-    await message.answer("🚀 Ishingizni davom ettiring!", reply_markup=kb)
-    await global_refresh()
-
-# --- MAIN ---
+# --- Main ---
 async def main():
     init_db()
     asyncio.create_task(auto_loop())
