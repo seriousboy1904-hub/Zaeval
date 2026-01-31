@@ -1,0 +1,578 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Indom"
+      },
+      "geometry": {
+        "coordinates": [
+          59.81133022185702,
+          42.97350574842221
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Institut"
+      },
+      "geometry": {
+        "coordinates": [
+          59.761253649781025,
+          42.95902920383057
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+      "name": "Rayhan cafe"
+      },
+      "geometry": {
+        "coordinates": [
+          59.799964833031936,
+          42.93703881643029
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "6 joli"
+      },
+      "geometry": {
+        "coordinates": [
+          59.80094900395656,
+          42.943674052919334
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Ken'es"
+      },
+      "geometry": {
+        "coordinates": [
+          59.863599509522004,
+          43.05938616036616
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Konshi"
+      },
+      "geometry": {
+        "coordinates": [
+          59.78938853387061,
+          42.90313878752161
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Bazar"
+      },
+      "geometry": {
+        "coordinates": [
+          59.77291424358236,
+          42.93276532867438
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Zags"
+      },
+      "geometry": {
+        "coordinates": [
+          59.77779023999727,
+          42.933048488500305
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "5 etaj"
+      },
+      "geometry": {
+        "coordinates": [
+          59.77786922443775,
+          42.92042066198434
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Bir ayna"
+      },
+      "geometry": {
+        "coordinates": [
+          59.77862728343129,
+          42.91619534374155
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Aziza cafe"
+      },
+      "geometry": {
+        "coordinates": [
+          59.77508647286274,
+          42.92792416173546
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Golden park "
+      },
+      "geometry": {
+        "coordinates": [
+          59.77347098972669,
+          42.91701974793111
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Hakimiyat"
+      },
+      "geometry": {
+        "coordinates": [
+          59.77831929304537,
+          42.92362997677887
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Litsey"
+      },
+      "geometry": {
+        "coordinates": [
+          59.77677156638035,
+          42.91007618275708
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Qasim Ayezov"
+      },
+      "geometry": {
+        "coordinates": [
+          59.787209293333376,
+          42.91372687045802
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Qalli Ayimbetov"
+      },
+      "geometry": {
+        "coordinates": [
+          59.78525372093361,
+          42.92331238131928
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Shamurat Musaev"
+      },
+      "geometry": {
+        "coordinates": [
+          59.78858478101006,
+          42.92665616928136
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Vodnik"
+      },
+      "geometry": {
+        "coordinates": [
+          59.799321719907056,
+          42.9237605693107
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+      "name": "Temir jol"
+      },
+      "geometry": {
+        "coordinates": [
+          59.80856519857696,
+          42.924030723816514
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "1 konca"
+      },
+      "geometry": {
+        "coordinates": [
+          59.80061927586138,
+          42.915262219577045
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Ayteke"
+      },
+      "geometry": {
+        "coordinates": [
+          59.78288185544011,
+          42.89237725305429
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Posgay"
+      },
+      "geometry": {
+        "coordinates": [
+          59.77408272261107,
+          42.90081778388611
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Diydar kafe"
+      },
+      "geometry": {
+        "coordinates": [
+          59.769397695010184,
+          42.89281020508767
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Pushkin"
+      },
+      "geometry": {
+        "coordinates": [
+          59.7652231874539,
+          42.93159742452312
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "50 jilliq"
+      },
+      "geometry": {
+        "coordinates": [
+          59.759786654766344,
+          42.92858768639843
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Oktyabr kolsaboy"
+      },
+      "geometry": {
+        "coordinates": [
+          59.76643108252378,
+          42.93593580828684
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Kamarov"
+      },
+      "geometry": {
+        "coordinates": [
+          59.76728207080484,
+          42.9418098726388
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Qazi Ma'wlik"
+      },
+      "geometry": {
+        "coordinates": [
+          59.769660507712445,
+          42.94648505128728
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Tinibayev"
+      },
+      "geometry": {
+        "coordinates": [
+          59.77437642781538,
+          42.944440852836834
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "4 jol 24 saat"
+      },
+      "geometry": {
+        "coordinates": [
+          59.78486690764109,
+          42.93091410774673
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Pillexana & Anna kafe"
+      },
+      "geometry": {
+        "coordinates": [
+          59.786904010161834,
+          42.936286446255934
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Paxta zavod"
+      },
+      "geometry": {
+        "coordinates": [
+          59.784369007025106,
+          42.94230908515445
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Xalk bank"
+      },
+      "geometry": {
+        "coordinates": [
+          59.77384802877637,
+          42.93627180755766
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Tas balnica"
+      },
+      "geometry": {
+        "coordinates": [
+          59.77588640459675,
+          42.938549787170615
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Xojabek pavorot "
+      },
+      "geometry": {
+        "coordinates": [
+          59.79503695766013,
+          42.92800813080922
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Oboron pasyolka"
+      },
+      "geometry": {
+        "coordinates": [
+          59.76155706301233,
+          42.87572736847585
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "999 billyard"
+      },
+      "geometry": {
+        "coordinates": [
+          59.75894048096339,
+          42.93443761662033
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Gone pikarniy"
+      },
+      "geometry": {
+        "coordinates": [
+          59.7633754853598,
+          42.94060928339778
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "40 jilliq"
+      },
+      "geometry": {
+        "coordinates": [
+          59.75657341195182,
+          42.93758625608493
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Paraxatshiliq"
+      },
+      "geometry": {
+        "coordinates": [
+          59.75493393666761,
+          42.94425315664651
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Malbazar kollejd"
+      },
+      "geometry": {
+        "coordinates": [
+          59.74279416280672,
+          42.931462859098986
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Nawriz"
+      },
+      "geometry": {
+        "coordinates": [
+          59.762203945579415,
+          42.925127516052356
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+       "name": "Qamisariq"
+      },
+      "geometry": {
+        "coordinates": [
+          59.7036270591353,
+          42.91425268647251
+        ],
+        "type": "Point"
+      }
+    },
+{
+      "type": "Feature",
+      "properties": {
+        "name": "Miyrmanov"
+      },
+      "geometry": {
+        "coordinates": [
+          59.78989993147661,
+          42.92229229053308
+        ],
+        "type": "Point"
+      },
+      "id": 43
+    }
+  ]
+}
