@@ -14,7 +14,6 @@ API_TOKEN = os.getenv("BOT_TOKEN")
 GEOJSON_FILE = 'locations.json'
 DB_FILE = 'taxi_queue.db'
 ALLOWED_RADIUS = 500  # Metrda
-
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 
