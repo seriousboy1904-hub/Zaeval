@@ -15,6 +15,12 @@ GEOJSON_FILE = 'locations.json'
 DB_FILE = 'taxi_queue.db'
 ALLOWED_RADIUS = 500  # Metrda
 
+if not API_TOKEN:
+    raise ValueError("BOT_TOKEN topilmadi!")
+
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher()
+
 # --- BAZA BILAN ISHLASH (Xatoni tuzatuvchi qism) ---
 def init_db():
     conn = sqlite3.connect(DB_FILE)
